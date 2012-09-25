@@ -1,3 +1,9 @@
+# VirtualEnv folder env/
+env
+
+# Vim swp fles
+*.swp
+
 *.py[co]
 
 # Packages

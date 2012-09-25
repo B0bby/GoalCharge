@@ -1,8 +1,8 @@
 import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..1')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
 from flask.ext.script import Manager, Server
-from FlaskFun import app
+from GoalCharge import app
 
 manager = Manager(app)
 
