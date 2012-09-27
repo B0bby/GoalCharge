@@ -10,11 +10,5 @@ db = MongoEngine(app)
 
 views.init(app)
 
-#def register_blueprints(app):
-    #app.register_blueprint(model)
-#    return True
-
-#register_blueprints(app)
-
 if __name__ == "__main__":
     app.run()
