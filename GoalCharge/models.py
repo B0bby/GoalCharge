@@ -17,7 +17,7 @@ class Goal(db.Document):
     title = db.StringField(required=True, max_length=150)
     user = db.ReferenceField(User, required=True)
     charge = db.IntField()
-    original = db.ReferenceField(Goal)
+    #original = db.ReferenceField(Goal)
     status = db.StringField(required=True, default='not_started')
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     #date comparator
@@ -40,7 +40,7 @@ class Milestone(db.Document):
     message = db.StringField(required=True)
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     finished_at = db.DateTimeField()
-    period = db.StringFiel()
+    period = db.StringField()
 
     def __unicode__(self):
         return "%s Milestone: %s" % (goal.title, message)

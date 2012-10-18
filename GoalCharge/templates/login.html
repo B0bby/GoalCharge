@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Login</h1>
+  {% if login_status == "form" %}
+    <p>Login form here.</p>
+    <form action="/login" method="post">
+      <input type="submit" value="Login" />
+    </form>
+  {% elif login_status == "success" %}
+    <p>Login successful.</p>
+  {% elif login_status == "fail" %}
+    <p>Login unsuccessful.</p>
+  {% endif %}
+{% endblock %}

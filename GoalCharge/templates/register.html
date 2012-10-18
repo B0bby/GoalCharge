@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Register</h1>
+  {% if register_status == "form" %}
+    <p>Register form here.</p>
+    <form action="/register" method="post">
+      <input type="submit" value="Register" />
+    </form>
+  {% elif register_status == "success" %}
+    <p>Register successful.</p>
+  {% elif register_status == "fail" %}
+    <p>Register unsuccessful.</p>
+  {% endif %}
+
+{% endblock %}
