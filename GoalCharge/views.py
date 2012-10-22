@@ -1,5 +1,5 @@
 from flask import (current_app, render_template, request)
-#from GoalCharge.models import (User, Goal)
+from GoalCharge.models import (User, Goal)
 
 def init(app):
     @app.route("/")
@@ -42,5 +42,6 @@ def init(app):
     def user_user(username):
         # TODO: Logic to grab user info and add push to profile page
         """user = User(username)"""
-        return render_template("user/user.html")
+        user = User.objects.get_or_404(username=username)
+        return render_template("user/user.html", user=user)
 

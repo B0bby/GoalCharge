@@ -3,6 +3,7 @@ from flask import url_for
 from GoalCharge import db
 
 class User(db.Document):
+    username = db.StringField(required=True, max_length=30)
     email = db.EmailField(required=True)
     password = db.StringField(required=True)
     display_name = db.StringField(max_length=75)
