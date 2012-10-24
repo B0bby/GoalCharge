@@ -14,6 +14,12 @@ def init(app):
             login_status = "success"
         return render_template("login.html", login_status=login_status)
 
+    @app.route("/logout")
+    def logout():
+        # TODO: Logout logic
+        # Send back to the page the user was at? Just back to index for now
+        return index()
+
     @app.route("/register", methods=['GET', 'POST'])
     def register():
         # TODO: WTForm
