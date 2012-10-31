@@ -1,4 +1,5 @@
 from flask import (current_app, render_template, request)
+from GoalCharge.forms import (LoginForm, RegisterForm)
 
 def init(app):
     @app.route("/")
@@ -9,10 +10,14 @@ def init(app):
     @app.route("/login", methods=['GET', 'POST'])
     def login():
         # TODO: WTForm
+        form = LoginForm(request.form)
         login_status = "form"
         if request.method == "POST":
-            login_status = "success"
-        return render_template("login.html", login_status=login_status)
+            if form.validate():
+                login_status = "success"
+            else:
+                login_statue = "fail"
+        return render_template("login.html", login_status=login_status, form=form)
 
     @app.route("/logout")
     def logout():
@@ -22,11 +27,14 @@ def init(app):
 
     @app.route("/register", methods=['GET', 'POST'])
     def register():
-        # TODO: WTForm
+        form = RegisterForm(request.form)
         register_status = "form"
         if request.method == "POST":
-            register_status = "success"
-        return render_template("register.html", register_status=register_status)
+            if form.validated():
+                register_status = "success"
+            else:
+                register_status = "fail"
+        return render_template("register.html", register_status=register_status, form=form)
 
     @app.route("/explore")
     def explore():

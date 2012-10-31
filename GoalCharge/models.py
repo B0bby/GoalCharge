@@ -18,7 +18,7 @@ class Goal(db.Document):
     title = db.StringField(required=True, max_length=150)
     user = db.ReferenceField(User, required=True)
     charge = db.IntField()
-    #original = db.ReferenceField(Goal)
+    original = db.ReferenceField(self)
     status = db.StringField(required=True, default='not_started')
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     #date comparator

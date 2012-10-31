@@ -4,7 +4,12 @@
   <h1>Login</h1>
   {% if login_status == "form" %}
     <p>Login form here.</p>
+    {% from "_formhelpers.html" import render_field %}
     <form action="/login" method="post">
+      <dl>
+        {{ render_field(form.username) }}
+        {{ render_field(form.password) }}
+      </dl>
       <input type="submit" value="Login" />
     </form>
   {% elif login_status == "success" %}
