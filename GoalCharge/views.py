@@ -1,4 +1,7 @@
 from flask import (current_app, render_template, request)
+from flask.ext.mongorest.views import ResourceView
+from flask.ext.mongorest import methods
+from GoalCharge import api
 from GoalCharge.forms import (LoginForm, RegisterForm)
 
 def init(app):
@@ -45,16 +48,22 @@ def init(app):
     def about():
         return render_template("about.html")
 
-    @app.route("/user/account", methods=['GET', 'POST'])
-    #@login_required
-    def user_account():
-        # TODO: Edit user account stuff
-        return render_template("user/account.html")
+    @api.register(name='users', url='/users/')
+    class UserView(ResourceView):
+        from models import UserResource
+        resource = UserResource
+        methods = [methods.Create, methods.Update, methods.Fetch, methods.List]
 
-    @app.route("/user/<username>")
-    def user_user(username):
+#    @app.route("/user/account", methods=['GET', 'POST'])
+    #@login_required
+#    def user_account():
+        # TODO: Edit user account stuff
+#        return render_template("user/account.html")
+
+#    @app.route("/user/<username>")
+#    def user_user(username):
         # TODO: Logic to grab user info and add push to profile page
-        from GoalCharge.models import User
-        user = User.objects.get_or_404(username=username)
-        return render_template("user/user.html", user=user)
+#        from GoalCharge.models import User
+#        user = User.objects.get_or_404(username=username)
+#        return render_template("user/user.html", user=user)
 
