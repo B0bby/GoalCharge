@@ -1,5 +1,6 @@
 import datetime
 from flask import url_for
+from flask.ext.mongorest.resources import Resource
 from GoalCharge import db
 
 class User(db.Document):
@@ -13,6 +14,9 @@ class User(db.Document):
 
     def __unicode__(self):
         return self.email
+
+class UserResource(Resource):
+    document = User
 
 class Goal(db.Document):
     title = db.StringField(required=True, max_length=150)
