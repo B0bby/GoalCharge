@@ -1,5 +1,5 @@
 from flask import (current_app, render_template, request)
-#from flask.ext.mongorest.views import ResourceView
+from flask.ext.mongorest.views import ResourceView
 from flask.ext.mongorest import methods
 from GoalCharge import api
 from GoalCharge.forms import (LoginForm, RegisterForm)
@@ -48,10 +48,11 @@ def init(app):
     def about():
         return render_template("about.html")
 
-#    @api.register(name='users', url='/users/')
-#    class UserView(ResourceView):
-#        resource = UserResource
-#        methords = [methods.Create, methods.Update, methods.Fetch, methods.List]
+    @api.register(name='users', url='/users/')
+    class UserView(ResourceView):
+        from models import UserResource
+        resource = UserResource
+        methods = [methods.Create, methods.Update, methods.Fetch, methods.List]
 
 #    @app.route("/user/account", methods=['GET', 'POST'])
     #@login_required
