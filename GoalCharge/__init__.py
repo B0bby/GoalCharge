@@ -1,7 +1,6 @@
 from flask import Flask
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.mongorest import MongoRest
-from . import views
 
 app = Flask(__name__)
 app.config["MONGODB_DB"] = "goalcharge"
@@ -11,6 +10,7 @@ db = MongoEngine(app)
 
 api = MongoRest(app)
 
+from . import views
 views.init(app)
 
 if __name__ == "__main__":
