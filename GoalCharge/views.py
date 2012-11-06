@@ -1,7 +1,10 @@
-from flask import (current_app, render_template, request)
+from flask import (current_app, render_template, request, redirect, url_for)
 from flask.ext.mongorest.views import ResourceView
 from flask.ext.mongorest import methods
-from GoalCharge import api
+from flask.ext.login import (login_required, current_user, login_user,
+        logout_user)
+from mongoengine.queryset import DoesNotExist
+from GoalCharge import (api, login_manager)
 from GoalCharge.forms import (LoginForm, RegisterForm)
 
 def init(app):
@@ -12,21 +15,29 @@ def init(app):
 
     @app.route("/login", methods=['GET', 'POST'])
     def login():
-        # TODO: WTForm
-        form = LoginForm(request.form, LoginForm.items())
+        from GoalCharge.models import User
+        form = LoginForm(request.form)
         login_status = "form"
         if request.method == "POST":
-            if form.validate():
-                login_status = "success"
-            else:
-                login_statue = "fail"
+            #if form.validate_on_submit():
+                try:
+                    user = User.objects.get(username=form.username.data,
+                            password=form.password.data)
+                    login_user(user)
+                    login_status = "success"
+                    return redirect(url_for("index"))
+                except DoesNotExist:
+                    login_status = "fail"
+            #else:
+                #login_status = "fail"
         return render_template("login.html", login_status=login_status, form=form)
 
     @app.route("/logout")
     def logout():
         # TODO: Logout logic
         # Send back to the page the user was at? Just back to index for now
-        return index()
+        logout_user()
+        return redirect(url_for("index"))
 
     @app.route("/register", methods=['GET', 'POST'])
     def register():

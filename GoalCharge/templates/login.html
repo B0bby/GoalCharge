@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Login</h1>
+<h1>Login</h1>
   {% if login_status == "form" %}
-    <p>Login form here.</p>
     {% from "_formhelpers.html" import render_field %}
     <form action="/login" method="post">
       <dl>

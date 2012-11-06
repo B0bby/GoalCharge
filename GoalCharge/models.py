@@ -15,6 +15,20 @@ class User(db.Document):
     def __unicode__(self):
         return self.email
 
+    def is_authenticated(self):
+        if (id == None or id == ""):
+            return False
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.id
+
 class UserResource(Resource):
     document = User
 
