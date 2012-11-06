@@ -13,7 +13,7 @@ def init(app):
     @app.route("/login", methods=['GET', 'POST'])
     def login():
         # TODO: WTForm
-        form = LoginForm(request.form)
+        form = LoginForm(request.form, LoginForm.items())
         login_status = "form"
         if request.method == "POST":
             if form.validate():
@@ -52,6 +52,18 @@ def init(app):
     class UserView(ResourceView):
         from models import UserResource
         resource = UserResource
+        methods = [methods.Create, methods.Update, methods.Fetch, methods.List]
+
+    @api.register(name='goals', url='/goals/')
+    class GoalView(ResourceView):
+        from models import GoalResource
+        resource = GoalResource
+        methods = [methods.Create, methods.Update, methods.Fetch, methods.List]
+
+    @api.register(name='milestones', url='/milestones/')
+    class MilestoneView(ResourceView):
+        from models import MilestoneResource
+        resource = MilestoneResource
         methods = [methods.Create, methods.Update, methods.Fetch, methods.List]
 
 #    @app.route("/user/account", methods=['GET', 'POST'])
