@@ -3,7 +3,7 @@ from flask.ext.mongorest.views import ResourceView
 from flask.ext.mongorest import methods
 from flask.ext.login import (login_required, current_user, login_user,
         logout_user)
-from mongoengine.queryset import DoesNotExist
+from mongoengine.queryset import DoesNotExist, NotUniqueError
 from GoalCharge import (api, login_manager)
 from GoalCharge.forms import (LoginForm, RegisterForm)
 
@@ -45,12 +45,12 @@ def init(app):
         form = RegisterForm(request.form)
         register_status = "form"
         if request.method == "POST":
-            #try:
+            try:
                 new_user = User(username=form.username.data,email=form.email.data,password=form.password.data)
                 new_user.save()
                 register_status = "success"
-            #catch Exception:
-                #register_status = "fail"
+            except NotUniqueError:
+                register_status = "fail"
         return render_template("register.html", register_status=register_status, form=form)
 
     @app.route("/explore")
