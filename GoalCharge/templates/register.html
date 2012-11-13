@@ -3,14 +3,13 @@
 {% block content %}
   <h1>Register</h1>
   {% if register_status == "form" %}
-    <p>Register form here.</p>
     {% from "_formhelpers.html" import render_field %}
     <form action="/register" method="post">
       <dl>
         {{ render_field(form.username) }}
         {{ render_field(form.email) }}
         {{ render_field(form.password) }}
-        {{ render_field(form.password_confirm) }}
+        (there will be a password confirm field here)
       </dl>
       <input type="submit" value="Register" />
     </form>

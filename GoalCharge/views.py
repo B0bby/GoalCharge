@@ -41,13 +41,16 @@ def init(app):
 
     @app.route("/register", methods=['GET', 'POST'])
     def register():
+        from models import User
         form = RegisterForm(request.form)
         register_status = "form"
         if request.method == "POST":
-            if form.validated():
+            #try:
+                new_user = User(username=form.username.data,email=form.email.data,password=form.password.data)
+                new_user.save()
                 register_status = "success"
-            else:
-                register_status = "fail"
+            #catch Exception:
+                #register_status = "fail"
         return render_template("register.html", register_status=register_status, form=form)
 
     @app.route("/explore")
