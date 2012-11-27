@@ -29,6 +29,9 @@ class User(db.Document):
     def get_id(self):
         return self.id
 
+    def self(self):
+        return self
+
 class UserResource(Resource):
     document = User
 
@@ -36,6 +39,7 @@ class Goal(db.Document):
     title = db.StringField(required=True, max_length=150)
     user = db.ReferenceField(User, required=True)
     charge = db.IntField()
+    description = db.StringField()
     #original = db.ReferenceField(self)
     status = db.StringField(required=True, default='not_started')
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
@@ -43,6 +47,9 @@ class Goal(db.Document):
     #charge comparator
 
     def __unicode__(self):
+        return self.title
+
+    def gettitle(self):
         return self.title
 
 class GoalResource(Resource):

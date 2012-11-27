@@ -5,7 +5,7 @@ from flask.ext.login import (login_required, current_user, login_user,
         logout_user)
 from mongoengine.queryset import DoesNotExist, NotUniqueError
 from GoalCharge import (api, login_manager)
-from GoalCharge.forms import (LoginForm, RegisterForm)
+from GoalCharge.forms import (LoginForm, RegisterForm, NewGoalForm)
 
 def init(app):
     @app.route("/")
@@ -33,6 +33,7 @@ def init(app):
         return render_template("login.html", login_status=login_status, form=form)
 
     @app.route("/logout")
+    @login_required
     def logout():
         # TODO: Logout logic
         # Send back to the page the user was at? Just back to index for now
@@ -52,6 +53,30 @@ def init(app):
             except NotUniqueError:
                 register_status = "fail"
         return render_template("register.html", register_status=register_status, form=form)
+
+    @app.route("/user/<user_id>")
+    def user(user_id):
+        from models import User, Goal
+        user = User.objects.get_or_404(id=user_id)
+        goals = Goal.objects(user=user)
+        #goals = Goal.objects.all()
+        return render_template("user/profile.html", user=user, goals=goals)
+
+    @app.route("/goal/<goal_id>")
+    def goal(goal_id):
+        from models import Goal
+        goal = Goal.objects.get_or_404(id=goal_id)
+        return render_template("goal/goal.html", goal=goal)
+
+    @app.route("/goal/new", methods=['GET', 'POST'])
+    @login_required
+    def goal_new():
+        from models import Goal
+        form = NewGoalForm(request.form)
+        if request.method == "POST":
+            new_goal = Goal(title=form.title.data, user=current_user.self())
+            new_goal.save()
+        return render_template("goal/new.html", form=form)
 
     @app.route("/explore")
     def explore():
@@ -79,6 +104,10 @@ def init(app):
         from models import MilestoneResource
         resource = MilestoneResource
         methods = [methods.Create, methods.Update, methods.Fetch, methods.List]
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template("errors/404.html"), 404
 
 #    @app.route("/user/account", methods=['GET', 'POST'])
     #@login_required

@@ -1,11 +1,13 @@
 from wtforms import Form, TextField, PasswordField, validators
 from flask.ext.mongoengine.wtf import model_form
-from GoalCharge.models import User
+from GoalCharge.models import User, Goal
 
 LoginForm = model_form(User,
         exclude=['email','display_name','register_date','charge','is_admin'])
 
 RegisterForm = model_form(User)
+
+NewGoalForm = model_form(Goal)
 
 #def LoginForm(Form):
 #    username = TextField("Username", [validators.Required()])

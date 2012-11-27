@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>New Goal</h1>
+{% from "_formhelpers.html" import render_field %}
+<form action="/goal/new" method="POST">
+  <dl>
+    {{ render_field(form.title) }}
+    {{ render_field(form.description) }}
+  </dl>
+  <input type="submit" value="Create Goal" />
+</form>
+{% endblock %}

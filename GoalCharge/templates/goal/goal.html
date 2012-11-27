@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ goal.title }}</h1>
+  <p>Description: {{ goal.description }}</p>
+
+  {% if goal.user.id == current_user.get_id() %}
+    <p><a href="/goal/{{ goal.id }}/edit">Edit Goal</a></p>
+  {% endif %}
+{% endblock %}
