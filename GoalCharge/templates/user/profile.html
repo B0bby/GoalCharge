@@ -12,6 +12,9 @@
   </ul>
 
   {% if user.id == current_user.get_id() %}
-    <p><a href="/user/{{ user.id }}/edit">Edit Profile</a></p>
+    <div class="well well-small">
+      <h3>Account Options</h3>
+      <p><a href="/user/{{ user.id }}/edit">Edit Profile</a></p>
+    </div>
   {% endif %}
 {% endblock %}

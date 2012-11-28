@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Editing {{ goal.title }}</h1>
+  {% if edit_status == "unauth" %}
+    <p>You're not allowed to edit this goal, but you can add it to your account by visit the goal's <a href="/goal/{{ goal.id }}">page</a> and click "asdf".</p>
+  {% else %}
+    <p>Woah editing.</p>
+  {% endif %}
+{% endblock %}

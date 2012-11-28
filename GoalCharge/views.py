@@ -62,11 +62,35 @@ def init(app):
         #goals = Goal.objects.all()
         return render_template("user/profile.html", user=user, goals=goals)
 
+    @app.route("/user/<user_id>/edit", methods=['GET', 'POST'])
+    @login_required
+    def user_edit(user_id):
+        from models import User
+        user = User.objects.get_or_404(id=user_id)
+        edit_status = "unauth"
+        if current_user.get_id == user.id or current_user.is_admin:
+            edit_status = "form"
+            if request.method == "POST":
+                edit_status = "success"
+        return render_template("user/edit.html", user=user, edit_status=edit_status)
+
     @app.route("/goal/<goal_id>")
     def goal(goal_id):
         from models import Goal
         goal = Goal.objects.get_or_404(id=goal_id)
         return render_template("goal/goal.html", goal=goal)
+
+    @app.route("/goal/<goal_id>/edit", methods=['GET', 'POST'])
+    @login_required
+    def goal_edit(goal_id):
+        from models import Goal
+        goal = Goal.objects.get_or_404(id=goal_id)
+        edit_status = "unauth"
+        if current_user.get_id() == goal.user.id:
+            edit_status = "form"
+            if request.method == "POST":
+                edit_status = "success"
+        return render_template("goal/edit.html", goal=goal, edit_status=edit_status)
 
     @app.route("/goal/new", methods=['GET', 'POST'])
     @login_required
