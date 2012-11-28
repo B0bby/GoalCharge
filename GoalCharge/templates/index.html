@@ -2,4 +2,10 @@
 
 {% block content %}
   <h1>Woah Index</h1>
+  <h2>Top Viewed Goals</h2>
+  <ul>
+  {% for goal in goals_most_views %}
+    <li><a href="/goal/{{ goal.id }}">{{ goal.title }} ({{ goal.views }})</a></li>
+  {% endfor %}
+  </ul>
 {% endblock %}

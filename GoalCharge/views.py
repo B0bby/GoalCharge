@@ -10,8 +10,9 @@ from GoalCharge.forms import (LoginForm, RegisterForm, NewGoalForm)
 def init(app):
     @app.route("/")
     def index():
-        # TODO: Generate logic for homepage data, whatever it may be
-        return render_template("index.html")
+        from models import User, Goal
+        goals_most_views = Goal.objects.order_by('-views')
+        return render_template("index.html", goals_most_views=goals_most_views)
 
     @app.route("/login", methods=['GET', 'POST'])
     def login():
@@ -78,6 +79,8 @@ def init(app):
     def goal(goal_id):
         from models import Goal
         goal = Goal.objects.get_or_404(id=goal_id)
+        goal.views = goal.views + 1
+        goal.save()
         return render_template("goal/goal.html", goal=goal)
 
     @app.route("/goal/<goal_id>/edit", methods=['GET', 'POST'])
@@ -97,10 +100,15 @@ def init(app):
     def goal_new():
         from models import Goal
         form = NewGoalForm(request.form)
+        new_status = "form"
         if request.method == "POST":
-            new_goal = Goal(title=form.title.data, user=current_user.self())
-            new_goal.save()
-        return render_template("goal/new.html", form=form)
+            try:
+                new_goal = Goal(title=form.title.data, user=current_user.self())
+                new_goal.save()
+                new_status = "success"
+            except OperationError:
+                new_status = "fail"
+        return render_template("goal/new.html", form=form, new_status=new_status)
 
     @app.route("/explore")
     def explore():

@@ -7,6 +7,7 @@
   {% if goal.user.id == current_user.get_id() %}
     <div class="well well-small">
       <h3>Goal Options</h3>
+      <p>This goal has been viewed {{ goal.views }} times.</p>
       <p><a href="/goal/{{ goal.id }}/edit">Edit Goal</a></p>
     </div>
   {% endif %}
