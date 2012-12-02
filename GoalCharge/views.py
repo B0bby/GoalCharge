@@ -6,6 +6,7 @@ from flask.ext.login import (login_required, current_user, login_user,
 from mongoengine.queryset import DoesNotExist, NotUniqueError
 from GoalCharge import (api, login_manager)
 from GoalCharge.forms import (LoginForm, RegisterForm, NewGoalForm)
+from GoalCharge.helpers import EncryptPassword
 
 def init(app):
     @app.route("/")
@@ -22,8 +23,9 @@ def init(app):
         if request.method == "POST":
             #if form.validate_on_submit():
                 try:
+                    password = EncryptPassword(form.password.data)
                     user = User.objects.get(username=form.username.data,
-                            password=form.password.data)
+                            password=password)
                     login_user(user)
                     login_status = "success"
                     return redirect(url_for("index"))
@@ -48,7 +50,8 @@ def init(app):
         register_status = "form"
         if request.method == "POST":
             try:
-                new_user = User(username=form.username.data,email=form.email.data,password=form.password.data)
+                password = EncryptPassword(form.password.data)
+                new_user = User(username=form.username.data,email=form.email.data,password=password)
                 new_user.save()
                 register_status = "success"
             except NotUniqueError:
