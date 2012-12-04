@@ -171,17 +171,3 @@ def init(app):
     @app.errorhandler(404)
     def page_not_found(e):
         return render_template("errors/404.html"), 404
-
-#    @app.route("/user/account", methods=['GET', 'POST'])
-    #@login_required
-#    def user_account():
-        # TODO: Edit user account stuff
-#        return render_template("user/account.html")
-
-#    @app.route("/user/<username>")
-#    def user_user(username):
-        # TODO: Logic to grab user info and add push to profile page
-#        from GoalCharge.models import User
-#        user = User.objects.get_or_404(username=username)
-#        return render_template("user/user.html", user=user)
-

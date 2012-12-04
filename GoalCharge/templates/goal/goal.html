@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>{{ goal.title }}</h1>
-  <p><strong>Created by:</strong> <a href="/user/{{ goal.user.id }}">{{ goal.user.username }}</a></p>
+  <p><strong>Created by:</strong> <a href="/user/{{ goal.user.id }}">{{ goal.user.display_name }}</a></p>
   <p><strong>Description:</strong> {{ goal.description }}</p>
   <p><a href="/goal/{{ goal.id }}/copy" class="btn btn-primary">Copy Goal</a></p>
   {% if goal.user.id == current_user.get_id() %}
