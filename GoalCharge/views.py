@@ -1,4 +1,5 @@
-from flask import (current_app, render_template, request, redirect, url_for)
+import json
+from flask import (abort, current_app, render_template, request, redirect, url_for)
 from flask.ext.mongorest.views import ResourceView
 from flask.ext.mongorest import methods
 from flask.ext.login import (login_required, current_user, login_user,
@@ -95,8 +96,21 @@ def init(app):
         if current_user.get_id() == goal.user.id:
             edit_status = "form"
             if request.method == "POST":
+                goal.title = request.form['title']
+                goal.description = request.form['description']
+                goal.save()
                 edit_status = "success"
         return render_template("goal/edit.html", goal=goal, edit_status=edit_status)
+
+    @app.route("/goal/<goal_id>/copy")
+    @login_required
+    def goal_copy(goal_id):
+        from models import Goal
+        goal = Goal.objects.get_or_404(id=goal_id)
+        if (goal.user.id == current_user.get_id()):
+            abort(410)
+        else:
+            return "{\"json\": true}" 
 
     @app.route("/goal/new", methods=['GET', 'POST'])
     @login_required
@@ -106,7 +120,7 @@ def init(app):
         new_status = "form"
         if request.method == "POST":
             try:
-                new_goal = Goal(title=form.title.data, user=current_user.self())
+                new_goal = Goal(title=form.title.data, user=current_user.self(), description=form.description.data)
                 new_goal.save()
                 new_status = "success"
             except OperationError:
