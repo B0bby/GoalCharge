@@ -24,8 +24,8 @@ def init(app):
         if request.method == "POST":
             #if form.validate_on_submit():
                 try:
-                    password = EncryptPassword(form.password.data)
-                    user = User.objects.get(username=form.username.data,
+                    password = EncryptPassword(request.form['password'])
+                    user = User.objects.get(username=request.form['username'],
                             password=password)
                     login_user(user)
                     login_status = "success"
@@ -50,13 +50,16 @@ def init(app):
         form = RegisterForm(request.form)
         register_status = "form"
         if request.method == "POST":
-            try:
-                password = EncryptPassword(form.password.data)
-                new_user = User(username=form.username.data,email=form.email.data,password=password)
-                new_user.save()
-                register_status = "success"
-            except NotUniqueError:
-                register_status = "fail"
+            if request.form['password'] == request.form['password_confirm']:
+                try:
+                    password = EncryptPassword(request.form['password'])
+                    new_user = User(username=request.form['username'],email=request.form['email'],password=password)
+                    new_user.save()
+                    register_status = "success"
+                except NotUniqueError:
+                    register_status = "fail"
+            else:
+                register_status = "form_password"
         return render_template("register.html", register_status=register_status, form=form)
 
     @app.route("/user/<user_id>")

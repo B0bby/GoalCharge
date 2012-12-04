@@ -2,14 +2,21 @@
 
 {% block content %}
   <h1>Register</h1>
-  {% if register_status == "form" %}
+  {% if register_status == "form" or register_status == "form_password" %}
     {% from "_formhelpers.html" import render_field %}
+    {% if register_status == "form_password" %}
+      <p>Your passwords did not match.</p>
+    {% endif %}
     <form action="/register" method="post">
       <dl>
-        {{ render_field(form.username) }}
-        {{ render_field(form.email) }}
-        {{ render_field(form.password) }}
-        (there will be a password confirm field here)
+        <dt>Username</dt>
+        <dd><input type="text" name="username" /></dd>
+        <dt>Email</dt>
+        <dd><input type="text" name="email" /></dd>
+        <dt>Password</dt>
+        <dd><input type="password" name="password" /></dd>
+        <dt>Confirm Password</dt>
+        <dd><input type="password" name="password_confirm" /></dd>
       </dl>
       <input type="submit" value="Register" />
     </form>
