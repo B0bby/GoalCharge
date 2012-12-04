@@ -124,7 +124,9 @@ def init(app):
         if (goal.user.id == current_user.get_id()):
             abort(410)
         else:
-            return "{\"json\": true}" 
+            new_goal = Goal(title=goal.title, description=goal.description, user=current_user.self())
+            new_goal.save()
+            return redirect("/goal/%s" % new_goal.id)
 
     @app.route("/goal/<goal_id>/change_status")
     @login_required
