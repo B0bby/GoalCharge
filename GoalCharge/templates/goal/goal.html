@@ -4,13 +4,13 @@
   <h1>{{ goal.title }}
     {% if goal.status == "completed" %}
       <script type="text/javascript">
-        $("#success-label").tooltip();
+        $(".status-label").tooltip();
       </script>
-      <span id="success-label" class="label label-success" title="{{ goal.completed_at }}">Completed</span>
+      <span id="success-label" class="status-label label label-success" title="{{ goal.completed_at }}">Completed</span>
     {% elif goal.status == "incomplete" %}
-      <span class="label label-warning">Incomplete</span>
+      <span class="status-label label label-warning" title="{{ goal.created_at }}">Incomplete</span>
     {% elif goal.status == "not_started" %}
-      <span class="label label-important">Not Started</span>
+      <span class="status-label label label-important" title="{{ goal.created_at }}">Not Started</span>
     {% endif %}
   </h1>
   <p><strong>Created by:</strong> <a href="/user/{{ goal.user.id }}">{{ goal.user.display_name }}</a></p>
