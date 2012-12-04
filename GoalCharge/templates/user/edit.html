@@ -1,11 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Editing User {{ user.username }}</h1>
+  <h1>Editing User {{ user.display_name }}</h1>
   {% if edit_status == "unauth" %}
     <p>You are not allowed to edit this user account.</p>
   {% elif edit_status == "form"%}
-    <p>Edit form here</p>
+    <form action="/user/{{ user.id }}/edit" method="post">
+      <dt>Username</dt>
+      <dd><input type="text" name="username" value="{{ user.username }}" disabled="disabled" /></dd>
+      <dt>Display Name</dt>
+      <dd><input type="text" name="display_name" value="{{ user.display_name }}" /></dd>
+      <dt>Email</dt>
+      <dd><input type="text" name="email" value="{{ user.email }}" /></dd>
+      <dt>Password</dt>
+      <dd><input type="password" name="password" /></dd>
+      <dt>Password Confirm</dt>
+      <dd><input type="password" name="password_confirm" /></dd>
+      <input type="submit" value="Edit" />
+    </form>
   {% elif edit_status == "fail" %}
     <p>There was a problem editing this account.</p>
   {% elif edit_status == "success" %}

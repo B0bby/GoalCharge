@@ -53,7 +53,7 @@ def init(app):
             if request.form['password'] == request.form['password_confirm']:
                 try:
                     password = EncryptPassword(request.form['password'])
-                    new_user = User(username=request.form['username'],email=request.form['email'],password=password)
+                    new_user = User(username=request.form['username'],email=request.form['email'],password=password, display_name=request.form['username'])
                     new_user.save()
                     register_status = "success"
                 except NotUniqueError:
@@ -76,10 +76,21 @@ def init(app):
         from models import User
         user = User.objects.get_or_404(id=user_id)
         edit_status = "unauth"
-        if current_user.get_id == user.id or current_user.is_admin:
+        if current_user.get_id() == user.id or current_user.is_admin:
             edit_status = "form"
             if request.method == "POST":
-                edit_status = "success"
+                user.display_name = request.form['display_name']
+                user.email = request.form['email']
+                if request.form['password'] != "":
+                    if request.form['password'] == request.form['password_confirm']:
+                        user.password = EncryptPassword(request.form['password'])
+                        user.save()
+                        edit_status = "success"
+                    else:
+                        edit_status = "fail"
+                else:
+                    user.save()
+                    edit_status = "success"
         return render_template("user/edit.html", user=user, edit_status=edit_status)
 
     @app.route("/goal/<goal_id>")
