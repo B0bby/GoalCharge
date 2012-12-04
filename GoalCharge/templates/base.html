@@ -27,6 +27,9 @@
           <a href="/" class="brand">GoalCharge</a>
           <ul class="nav">
             {% if current_user.is_authenticated() %}
+              <li><a href="/goal/new">New Goal</a></li>
+            {% endif %}
+           {% if current_user.is_authenticated() %}
               <li><a href="/user/{{ current_user.get_id() }}">Profile</a></li>
               <li><a href="/logout">Logout</a></li>
             {% else %}
@@ -35,9 +38,6 @@
             {% endif %}
             <li><a href="/explore">Explore</a></li>
             <li><a href="/about">About</a></li>
-            {% if current_user.is_authenticated() %}
-              <li><a href="/goal/new">New Goal</a></li>
-            {% endif %}
          </ul>
         </div>
       </div>
