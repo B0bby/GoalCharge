@@ -43,6 +43,7 @@ class Goal(db.Document):
     #original = db.ReferenceField(self)
     status = db.StringField(required=True, default='not_started')
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+    completed_at = db.DateTimeField()
     views = db.IntField(default=0)
     #date comparator
     #charge comparator

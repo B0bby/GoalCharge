@@ -1,4 +1,4 @@
-import json
+import datetime
 from flask import (abort, current_app, render_template, request, redirect, url_for)
 from flask.ext.mongorest.views import ResourceView
 from flask.ext.mongorest import methods
@@ -125,6 +125,20 @@ def init(app):
             abort(410)
         else:
             return "{\"json\": true}" 
+
+    @app.route("/goal/<goal_id>/change_status")
+    @login_required
+    def goal_completed(goal_id):
+        from models import Goal
+        goal = Goal.objects.get_or_404(id=goal_id)
+        if goal.user.id != goal.user.id or current_user.is_admin:
+            abort(405)
+        else:
+            goal.status = request.args.get("status")
+            if request.args.get("status") == "completed":
+                goal.completed_at = datetime.datetime.now()
+            goal.save()
+            return redirect("/goal/%s" % goal_id)
 
     @app.route("/goal/new", methods=['GET', 'POST'])
     @login_required
