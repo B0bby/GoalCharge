@@ -13,6 +13,9 @@
       <span class="status-label label label-important" title="{{ goal.created_at }}">Not Started</span>
     {% endif %}
   </h1>
+  {% if goal.original != None %}
+    <p><em>Original goal: <a href="/goal/{{ goal.original.id }}">{{ goal.original.user.display_name }}/{{ goal.original.title }}</a></em></p>
+  {% endif %}
   <p><strong>Created by:</strong> <a href="/user/{{ goal.user.id }}">{{ goal.user.display_name }}</a></p>
   <p><strong>Description:</strong> {{ goal.description }}</p>
   <p><a href="/goal/{{ goal.id }}/copy" class="btn btn-primary">Copy Goal</a></p>

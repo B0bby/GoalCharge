@@ -40,7 +40,7 @@ class Goal(db.Document):
     user = db.ReferenceField(User, required=True)
     charge = db.IntField()
     description = db.StringField()
-    #original = db.ReferenceField(self)
+    original = db.ReferenceField("Goal")
     status = db.StringField(required=True, default='not_started')
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     completed_at = db.DateTimeField()
