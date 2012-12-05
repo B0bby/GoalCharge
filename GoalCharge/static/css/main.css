@@ -1,3 +1,35 @@
+/* Colors
+ * Dark something: #29473d
+ * Dark green: #527353
+ * Light green: #a9b56a
+ * Tan-ish: #e0dcba
+ * Pale yellow: #e2e66c
+ */
+body {
+    background-color: #e0dcba;
+    color: #29473d;
+}
+a {
+    color: #527353;
+}
 #footer {
-    border-top: 1px solid #aaa;
+    border-top: 1px solid #29473d;
+}
+#navbar .navbar-inner {
+    background-color: #29473d;
+    background-image: none;
+    color: #e0dcba;
+}
+#navbar a {
+    color: #e0dcba;
+    text-shadow: none;
+}
+.brand .icon-bolt {
+    padding: 0 5px;
+    -webkit-transform: rotate(35deg);
+    -moz-transform: rotate(35deg);
+    font-size: 1.3em;
+    position: relative;
+    top: 2px;
+    color: #e2e66c;
 }
