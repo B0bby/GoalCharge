@@ -32,6 +32,9 @@ a {
     color: #495a99;
     padding: 0 15px;
 }
+#footer .copyright {
+    font-weight: bold;
+}
 #footer,
 #push {
     height: 100px;
