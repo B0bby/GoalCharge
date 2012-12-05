@@ -25,39 +25,38 @@
     <div id="wrap">
       <div id="navbar" class="navbar">
         <div class="navbar-inner">
-            <a href="/" class="brand">Goal<i class="icon-bolt"></i>Charge</a>
+          <a href="/" class="brand">Goal<i class="icon-bolt"></i>Charge</a>
           <ul class="nav">
             {% if current_user.is_authenticated() %}
               <li><a href="/goal/new">New Goal</a></li>
             {% endif %}
-           {% if current_user.is_authenticated() %}
-              <li><a href="/user/{{ current_user.get_id() }}">Profile</a></li>
-              <li><a href="/logout">Logout</a></li>
-            {% else %}
-              <li><a href="/login">Login</a></li>
-              <li><a href="/register">Register</a></li>
-            {% endif %}
             <li><a href="/explore">Explore</a></li>
             <li><a href="/about">About</a></li>
-         </ul>
+           </ul>
+           <ul class="nav pull-right">
+             {% if current_user.is_authenticated() %}
+               <li><a href="/user/{{ current_user.get_id() }}">Profile</a></li>
+               <li><a href="/logout">Logout</a></li>
+             {% else %}
+               <li><a href="/login">Login</a></li>
+               <li><a href="/register">Register</a></li>
+             {% endif %}
+           </ul>
         </div>
       </div>
 
       <div id="container" class="container-fluid">
         <div class="row-fluid">
-          {#<div class="span-2">
-            asdf
-          </div>#}
-          <div class="span10">
+          <div class="span12">
             {% block content %}
             {% endblock %}
           </div>
         </div>
       </div>
-
-      <div id="footer">
-        <p>&copy; 2012 GoalCharge</p>
-      </div>
+      <div id="push"></div>
+    </div>
+    <div id="footer">
+      <p>&copy; 2012 GoalCharge</p>
     </div>
   </body>
 </html>

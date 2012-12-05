@@ -1,35 +1,63 @@
 /* Colors
- * Dark something: #29473d
- * Dark green: #527353
- * Light green: #a9b56a
- * Tan-ish: #e0dcba
+ * Dark Blue: #495a99
+ * Light Blue: #b2c9de
+ * Off White: #f2f2ea
+ * Dark Green: #a2ba36
+ * Light Green: #d8e872
  * Pale yellow: #e2e66c
  */
+* {
+    margin: 0;
+}
+html,
 body {
-    background-color: #e0dcba;
-    color: #29473d;
+    height: 100%;
+}
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -100px;
+}
+body {
+    color: #495a99;
+    background-color: #f2f2ea;
 }
 a {
-    color: #527353;
+    color: #a2ba36;
 }
 #footer {
-    border-top: 1px solid #29473d;
+    border-top: 1px solid #d8e872;
+    background-color: #a2ba36;
+    color: #495a99;
+    padding: 0 15px;
+}
+#footer,
+#push {
+    height: 100px;
 }
 #navbar .navbar-inner {
-    background-color: #29473d;
+    background-color: #495a99;
     background-image: none;
-    color: #e0dcba;
+    color: #b2c9de;
 }
 #navbar a {
-    color: #e0dcba;
+    color: #b2c9de;
     text-shadow: none;
 }
 .brand .icon-bolt {
     padding: 0 5px;
-    -webkit-transform: rotate(35deg);
-    -moz-transform: rotate(35deg);
     font-size: 1.3em;
     position: relative;
     top: 2px;
     color: #e2e66c;
+}
+#footer p {
+    margin-top: 15px;
+}
+.well {
+    background-color: #b2c9de;
+}
+.hero-unit {
+    text-align: center;
 }

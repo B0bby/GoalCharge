@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Woah Index</h1>
+<div class="hero-unit well">
+    <h1>Welcome to <span class="brand">Goal<i class="icon-bolt"></i>Charge</span>!</h1>
+</div>
   <h2>Top Viewed Goals</h2>
   <ul>
   {% for goal in goals_most_views %}
