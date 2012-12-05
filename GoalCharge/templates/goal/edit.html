@@ -4,7 +4,17 @@
   <h1>Editing {{ goal.title }}</h1>
   {% if edit_status == "unauth" %}
     <p>You're not allowed to edit this goal, but you can add it to your account by visit the goal's <a href="/goal/{{ goal.id }}">page</a> and click "asdf".</p>
-  {% else %}
-    <p>Woah editing.</p>
+  {% elif edit_status == "fail" %}
+    <p>There was an error editing this goal.</p>
+  {% elif edit_status == "success" %}
+  <p>"<a href="/goal/{{ goal.id }}">{{ goal.title }}</a>" has been edited successfully.</p>
+  {% elif edit_status == "form" %}
+    <form action="/goal/{{ goal.id }}/edit" method="post">
+      <dt>Title</dt>
+      <dd><input type="text" name="title" value="{{ goal.title }}" /></dd>
+      <dt>Description</dt>
+      <dd><textarea name="description">{{ goal.description }}</textarea></dd>
+      <input type="submit" value="Edit" />
+    </form>
   {% endif %}
 {% endblock %}
