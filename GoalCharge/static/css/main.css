@@ -61,3 +61,7 @@ a {
 .hero-unit {
     text-align: center;
 }
+.form-actions {
+    background-color: #f2f2ea;
+    border: 0 none;
+}

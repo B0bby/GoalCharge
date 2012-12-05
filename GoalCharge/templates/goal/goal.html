@@ -1,32 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ goal.title }}
-    {% if goal.status == "completed" %}
-      <script type="text/javascript">
-        $(".status-label").tooltip();
-      </script>
-      <span id="success-label" class="status-label label label-success" title="{{ goal.completed_at }}">Completed</span>
-    {% elif goal.status == "incomplete" %}
-      <span class="status-label label label-warning" title="{{ goal.created_at }}">Incomplete</span>
-    {% elif goal.status == "not_started" %}
-      <span class="status-label label label-important" title="{{ goal.created_at }}">Not Started</span>
-    {% endif %}
-  </h1>
-  <p><strong>Created by:</strong> <a href="/user/{{ goal.user.id }}">{{ goal.user.display_name }}</a></p>
-  <p><strong>Description:</strong> {{ goal.description }}</p>
-  <p><a href="/goal/{{ goal.id }}/copy" class="btn btn-primary">Copy Goal</a></p>
-  {% if goal.user.id == current_user.get_id() %}
-    <div class="well well-small">
-      <h3>Goal Options</h3>
-      <p>This goal has been viewed {{ goal.views }} times.</p>
-      {% if goal.status != "completed" %}
-        <p><a href="/goal/{{ goal.id }}/change_status?status=completed" class="btn btn-success">Mark as Completed</a></p>
-      {% else %}
-        <p>Goal completed at {{ goal.completed_at }}.</p>
-        <p><a href="/goal/{{ goal.id }}/change_status?status=incomplete" class="btn btn-danger">Mark as Incomplete</a></p>
-      {% endif %}
-      <p><a href="/goal/{{ goal.id }}/edit" class="btn btn-inverse">Edit Goal</a></p>
+  <div class="row-fluid">
+    <div class="span12 well">
+      <h2>{{ goal.title }}</h2>
+      <p><strong>Status: </strong>
+        <script type="text/javascript">
+          $(".status-label").tooltip();
+        </script>
+        {% if goal.status == "completed" %}
+          <span id="success-label" class="status-label label label-success" title="{{ goal.completed_at }}">Completed</span>
+        {% elif goal.status == "incomplete" %}
+          <span class="status-label label label-warning" title="{{ goal.created_at }}">Incomplete</span>
+        {% elif goal.status == "not_started" %}
+          <span class="status-label label label-important" title="{{ goal.created_at }}">Not Started</span>
+        {% endif %}
+      </p>
+      <p><strong>Created by:</strong> <a href="/user/{{ goal.user.id }}">{{ goal.user.display_name }}</a></p>
+      <p><strong>Description:</strong> {{ goal.description }}</p>
     </div>
-  {% endif %}
+  </div>
+  <div class="row-fluid">
+    <div class="span2 well well-small">
+      <h3>Goal Options</h3>
+      {% if goal.user.id == current_user.get_id() %}
+        <p>This goal has been viewed {{ goal.views }} times.</p>
+        {% if goal.status != "completed" %}
+          <p><a href="/goal/{{ goal.id }}/change_status?status=completed" class="btn btn-success">Mark as Completed</a></p>
+        {% else %}
+          <p>Goal completed at {{ goal.completed_at }}.</p>
+          <p><a href="/goal/{{ goal.id }}/change_status?status=incomplete" class="btn btn-danger">Mark as Incomplete</a></p>
+        {% endif %}
+        <p><a href="/goal/{{ goal.id }}/milestone/new" class="btn btn-inverse">New Milestone</a></p>
+        <p><a href="/goal/{{ goal.id }}/edit" class="btn btn-inverse">Edit Goal</a></p>
+      {% endif %}
+      <p><a href="/goal/{{ goal.id }}/copy" class="btn btn-primary">Copy Goal</a></p>
+    </div>
+    <div class="span9">
+      <ul>
+        {% for milestone in milestones %}
+          <li>{{ milestone.message }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 {% endblock %}
+

@@ -1,28 +1,73 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Register</h1>
-  {% if register_status == "form" or register_status == "form_password" %}
-    {% from "_formhelpers.html" import render_field %}
-    {% if register_status == "form_password" %}
-      <p>Your passwords did not match.</p>
+  <div class="row-fluid">
+    <div class="span12">
+      <h2 class="well">Register</h2>
+    </div>
+  </div>
+  {% if not current_user.is_authenticated() %}
+    {% if register_status == "form" or register_status == "form_password" or register_status == "fail" %}
+      {% from "_formhelpers.html" import render_field %}
+      {% if register_status == "form_password" %}
+        <div class="alert alert-error">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Error!</strong> - Your passwords did not match.
+        </div>
+      {% endif %}
+      {% if register_status == "fail" %}
+        <div class="alert alert-error">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Error!</strong> - Register unsuccessful.
+        </div>
+      {% endif %}
+      <div class="row-fluid">
+        <div class="span3"></div>
+        <div class="span6">
+          <form class="form-horizontal" action="/register" method="post">
+            <div class="control-group">
+              <label for="username" class="control-label">Username</label>
+              <div class="controls">
+                <input id="username" type="text" name="username" autofocus="autofocus" />
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="email" class="control-label">Email</label>
+              <div class="controls">
+                <input id="email" type="text" name="email" />
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="password" class="control-label">Password</label>
+              <div class="controls">
+                <input id="password" type="password" name="password" />
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="password_confirm" class="control-label">Confirm Password</label>
+              <div class="controls">
+                <input id="password_confirm" type="password" name="password_confirm" />
+              </div>
+            </div>
+            <div class="form-actions">
+              <input class="btn" type="submit" value="Register" />
+            </div>
+          </form>
+        </div>
+      </div>
+    {% elif register_status == "success" %}
+      <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Success</strong> - Register successful.
+      </div>
+      <a class="btn" href="/login">Login <i class="icon-chevron-right"></i></a>
     {% endif %}
-    <form action="/register" method="post">
-      <dl>
-        <dt>Username</dt>
-        <dd><input type="text" name="username" /></dd>
-        <dt>Email</dt>
-        <dd><input type="text" name="email" /></dd>
-        <dt>Password</dt>
-        <dd><input type="password" name="password" /></dd>
-        <dt>Confirm Password</dt>
-        <dd><input type="password" name="password_confirm" /></dd>
-      </dl>
-      <input type="submit" value="Register" />
-    </form>
-  {% elif register_status == "success" %}
-    <p>Register successful.</p>
-  {% elif register_status == "fail" %}
-    <p>Register unsuccessful.</p>
+  {% else %}
+    <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Success</strong> - You have logged in.
+    </div>
+    <a class="btn" href="/user/{{ current_user.get_id() }}">Go to my profile <i class="icon-chevron-right"></i></a>
   {% endif %}
 {% endblock %}
+

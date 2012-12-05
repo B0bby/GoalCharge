@@ -1,20 +1,52 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Login</h1>
-  {% if login_status == "form" %}
-    <form action="/login" method="post">
-      <dl>
-        <dt>Username</dt>
-        <dd><input type="text" name="username" autofocus="autofocus" /></dd>
-        <dt>Password</dt>
-        <dd><input type="password" name="password" /></dd>
-      </dl>
-      <input type="submit" value="Login" />
-    </form>
-  {% elif login_status == "success" %}
-    <p>Login successful.</p>
-  {% elif login_status == "fail" %}
-    <p>Login unsuccessful.</p>
+  <div class="row-fluid">
+    <div class="span12">
+      <h2 class="well">Login</h2>
+    </div>
+  </div>
+  {% if not current_user.is_authenticated() %}
+    {% if login_status != "success" %}
+      {% if login_status == "fail" %}
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Unsuccessful</strong> - Incorrect username or password.
+        </div>
+      {% endif %}
+      <div class="row-fluid">
+          <div class="span3"></div>
+          <div class="span6">
+            <form class="form-horizontal" action="/login" method="post">
+              <div class="control-group">
+                <label for="username" class="control-label">Username</label>
+                <div class="controls">
+                    <input id="username" type="text" name="username" autofocus="autofocus" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label for="password" class="control-label">Password</label>
+                <div class="controls">
+                  <input id="password" type="password" name="password" />
+                </div>
+              </div>
+              <div class="form-actions">
+                <input class="btn" type="submit" value="Login" />
+              </div>
+            </form>
+          </div>
+        </div>
+    {% else %}
+      <div class="alert alert-error">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Success</strong> - You have logged in.
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Success</strong> - You have logged in.
+    </div>
+    <a class="btn" href="/user/{{ current_user.get_id() }}">Go to my profile <i class="icon-chevron-right"></i></a>
   {% endif %}
 {% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>New Milestone for {{ goal.title }}</h2>
+  {% if new_status == "form" %}
+    {% from "_formhelpers.html" import render_field %}
+    <form action="/goal/{{ goal.id }}/milestone/new" method="POST">
+      <dl>
+        {{ render_field(form.message) }}
+      </dl>
+      <input class="btn" type="submit" value="Create Milestone" />
+    </form>
+  {% elif new_status == "fail" %}
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Error!</strong> Unable to add your milestone.
+    </div>
+  {% elif new_status == "success" %}
+    <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Success!</strong> Your milestone has been added successfully!
+    </div>
+  {% endif %}
+  <a class="btn" href="/goal/{{ goal.id }}">
+    {% if new_status == "form" %}
+      Cancel
+    {% else %}
+      <i class="icon-chevron-left"></i> Back to {{ goal.title }}
+    {% endif %}
+  </a>
+{% endblock %}

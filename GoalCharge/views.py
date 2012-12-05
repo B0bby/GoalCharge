@@ -6,7 +6,7 @@ from flask.ext.login import (login_required, current_user, login_user,
         logout_user)
 from mongoengine.queryset import DoesNotExist, NotUniqueError
 from GoalCharge import (api, login_manager)
-from GoalCharge.forms import (LoginForm, RegisterForm, NewGoalForm)
+from GoalCharge.forms import (LoginForm, RegisterForm, NewGoalForm, NewMilestoneForm)
 from GoalCharge.helpers import EncryptPassword
 
 def init(app):
@@ -14,7 +14,8 @@ def init(app):
     def index():
         from models import User, Goal
         goals_most_views = Goal.objects.order_by('-views')
-        return render_template("index.html", goals_most_views=goals_most_views)
+        goals_most_charge = Goal.objects.order_by('-charge')
+        return render_template("index.html", goals_most_views=goals_most_views, goals_most_charge=goals_most_charge)
 
     @app.route("/login", methods=['GET', 'POST'])
     def login():
@@ -95,11 +96,28 @@ def init(app):
 
     @app.route("/goal/<goal_id>")
     def goal(goal_id):
-        from models import Goal
+        from models import Goal, Milestone
         goal = Goal.objects.get_or_404(id=goal_id)
+        milestones = Milestone.objects(goal=goal)
         goal.views = goal.views + 1
         goal.save()
-        return render_template("goal/goal.html", goal=goal)
+        return render_template("goal/goal.html", goal=goal, milestones=milestones)
+
+    @app.route("/goal/<goal_id>/milestone/new", methods=['GET', 'POST'])
+    def milestone_new(goal_id):
+        from models import Goal, Milestone
+        form = NewGoalForm(request.form)
+        goal = Goal.objects.get_or_404(id=goal_id)
+        form = NewMilestoneForm(request.form)
+        new_status = "form"
+        if request.method == "POST":
+            try:
+                new_milestone = Milestone(message=form.message.data, goal=goal)
+                new_milestone.save()
+                new_status = "success"
+            except OperationError:
+                new_status = "fail"
+        return render_template("milestone/new.html", goal=goal, form=form, new_status=new_status)
 
     @app.route("/goal/<goal_id>/edit", methods=['GET', 'POST'])
     @login_required
