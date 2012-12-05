@@ -18,6 +18,9 @@
       </p>
       <p><strong>Created by:</strong> <a href="/user/{{ goal.user.id }}">{{ goal.user.display_name }}</a></p>
       <p><strong>Description:</strong> {{ goal.description }}</p>
+      {% if goal.original != None %}
+        <p><strong>Original goal: </strong><a href="/goal/{{ goal.original.id }}">{{ goal.original.user.display_name }}/{{ goal.original.title }}</a></p>
+      {% endif %}
     </div>
   </div>
   <div class="row-fluid">
