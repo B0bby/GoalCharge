@@ -21,10 +21,10 @@
     <div class="span10 goals">
       <h2>Goals</h2>
       {% for goal in goals %}
-        <div class="well">
-          <p><h4><a href="/goal/{{ goal.id }}">{{ goal.title }}</a></h4></p>
+        <a class="well" href="/goal/{{ goal.id }}">
+          <p><h4>{{ goal.title }}</h4></p>
           <p><strong>Description: </strong>{{ goal.description }}</p>
-        </div>
+        </a>
       {% endfor %}
       </ul>
     </div>

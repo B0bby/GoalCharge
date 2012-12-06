@@ -23,8 +23,14 @@ body {
     color: #495a99;
     background-color: #f2f2ea;
 }
-a {
-    color: #a2ba36;
+a.well,
+a.well:hover {
+    text-decoration: none;
+    display: block;
+    color: #495a99;
+}
+a.well:hover {
+    background-color: #a2ba36;
 }
 #footer {
     border-top: 1px solid #d8e872;
@@ -80,11 +86,12 @@ a {
     color: #495a99;
 }
 .milestones .well,
-.goals .well {
+.goals .well,
+#about.well {
     background-color: #d8e872;
 }
 .milestones .well a,
 .goals .well a {
-    color: #a2ba36;
+    color: #495a99;
 }
 

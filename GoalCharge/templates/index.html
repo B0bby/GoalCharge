@@ -5,22 +5,30 @@
     <h1><span class="brand">Goal<i class="icon-bolt"></i>Charge</span></h1>
     <p><em>Take charge of your life!</em></p>
 </div>
-  <h2>Top Viewed Goals</h2>
-  <ul>
-    {% for goal in goals_most_views %}
-      <li><a href="/goal/{{ goal.id }}">{{ goal.title }} ({{ goal.views }})</a></li>
-    {% endfor %}
-  </ul>
-  <h2>Top Charged Goals</h2>
-  <ul>
-    {% for goal in goals_most_charge %}
-      <li><a href="/goal/{{ goal.id }}">{{ goal.title }} ({{ goal.charge }})</a></li>
-    {% endfor %}
-  </ul>
-  <h2>Newest Goals</h2>
-  <ul>
-    {% for goal in goals_newest %}
-      <li><a href="/goal/{{ goal.id }}">{{ goal.title }} ({{ goal.created_at }})</a></li>
-    {% endfor %}
-  </ul>
+<div class="row-fluid">
+  <div class="span4 well">
+    <h2>Top Viewed Goals</h2>
+    <ul class="nav nav-tabs nav-stacked">
+      {% for goal in goals_most_views %}
+        <li><a href="/goal/{{ goal.id }}">{{ goal.title }} ({{ goal.views }})</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="span4 well">
+    <h2>Top Charged Goals</h2>
+    <ul class="nav nav-tabs nav-stacked">
+      {% for goal in goals_most_charge %}
+        <li><a href="/goal/{{ goal.id }}">{{ goal.title }} ({{ goal.charge }})</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="span4 well">
+    <h2>Newest Goals</h2>
+    <ul class="nav nav-tabs nav-stacked">
+      {% for goal in goals_newest %}
+        <li><a href="/goal/{{ goal.id }}">{{ goal.title }} ({{ goal.created_at }})</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
 {% endblock %}
