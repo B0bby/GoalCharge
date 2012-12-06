@@ -12,16 +12,20 @@
       {% if user.id == current_user.get_id() or current_user.is_admin %}
         <div class="well well-small">
           <h4>Account Options</h4>
-          <p><a href="/user/{{ user.id }}/edit">Edit Profile</a></p>
+          <ul class="nav nav-tabs nav-stacked">
+              <li><a href="/user/{{ user.id }}/edit"><i class="icon-cogs pull-right"></i>Edit Profile</a></li>
+          </ul>
         </div>
       {% endif %}
     </div>
-    <div class="span9">
+    <div class="span10 goals">
       <h2>Goals</h2>
-      <ul>
-        {% for goal in goals %}
-          <li><a href="/goal/{{ goal.id }}">{{ goal.title }}</a></li>
-        {% endfor %}
+      {% for goal in goals %}
+        <div class="well">
+          <p><h4><a href="/goal/{{ goal.id }}">{{ goal.title }}</a></h4></p>
+          <p><strong>Description: </strong>{{ goal.description }}</p>
+        </div>
+      {% endfor %}
       </ul>
     </div>
   </div>

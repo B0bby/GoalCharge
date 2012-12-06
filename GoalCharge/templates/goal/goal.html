@@ -28,23 +28,32 @@
       <h3>Goal Options</h3>
       {% if goal.user.id == current_user.get_id() %}
         <p>This goal has been viewed {{ goal.views }} times.</p>
-        {% if goal.status != "completed" %}
-          <p><a href="/goal/{{ goal.id }}/change_status?status=completed" class="btn btn-success">Mark as Completed</a></p>
-        {% else %}
-          <p>Goal completed at {{ goal.completed_at }}.</p>
-          <p><a href="/goal/{{ goal.id }}/change_status?status=incomplete" class="btn btn-danger">Mark as Incomplete</a></p>
+        <ul class="nav nav-tabs nav-stacked">
+        {% if goal.status == "incomplete" %}
+          <li><a href="/goal/{{ goal.id }}/change_status?status=completed">Mark as Completed</a></li>
+        {% elif goal.status == "completed" %}
+          <li>Goal completed at {{ goal.completed_at }}.</li>
+          <li><a href="/goal/{{ goal.id }}/change_status?status=incomplete">Mark as Incomplete</a></li>
+        {% elif goal.status == "not_started" %}
+          <li><a href="/goal/{{ goal.id }}/change_status?status=incomplete"><i class="icon-play pull-right"></i>Begin Goal</a></li>
         {% endif %}
-        <p><a href="/goal/{{ goal.id }}/milestone/new" class="btn btn-inverse">New Milestone</a></p>
-        <p><a href="/goal/{{ goal.id }}/edit" class="btn btn-inverse">Edit Goal</a></p>
+        <li>
+          <a href="/goal/{{ goal.id }}/milestone/new"><i class="icon-plus pull-right"></i>New Milestone</a>
+        </li>
+        <li><a href="/goal/{{ goal.id }}/edit"><i class="icon-edit pull-right"></i>Edit Goal</a></li>
+      {% else %}
+        <ul class="nav nav-tabs nav-stacked">
       {% endif %}
-      <p><a href="/goal/{{ goal.id }}/copy" class="btn btn-primary">Copy Goal</a></p>
-    </div>
-    <div class="span9">
-      <ul>
-        {% for milestone in milestones %}
-          <li>{{ milestone.message }}</li>
-        {% endfor %}
+        <li><a href="/goal/{{ goal.id }}/copy"><i class="icon-copy pull-right"></i>Copy Goal</a></li>
       </ul>
+    </div>
+    <div class="span10 milestones">
+      {% for milestone in milestones %}
+        <div class="well">
+            <p><h4>Milestone {{ loop.index }}</h4></p>
+          <p><strong>description: </strong>{{ milestone.message }}</p>
+        </div>
+      {% endfor %}
     </div>
   </div>
 {% endblock %}

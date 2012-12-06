@@ -48,6 +48,10 @@ a {
     color: #b2c9de;
     text-shadow: none;
 }
+#navbar a:hover {
+    background-color: #b2c9de;
+    color: #495a99;
+}
 .brand .icon-bolt {
     padding: 0 5px;
     font-size: 1.3em;
@@ -68,3 +72,19 @@ a {
     background-color: #f2f2ea;
     border: 0 none;
 }
+.well li a {
+    background-color: #495a99;
+    color: #b2c9de;
+}
+.well li a:hover {
+    color: #495a99;
+}
+.milestones .well,
+.goals .well {
+    background-color: #d8e872;
+}
+.milestones .well a,
+.goals .well a {
+    color: #a2ba36;
+}
+
