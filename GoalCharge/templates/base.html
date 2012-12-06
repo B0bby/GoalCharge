@@ -57,6 +57,29 @@
     </div>
     <div id="footer">
       <p class="copyright">&copy; 2012 GoalCharge</p>
+      <p id="quote"></p>
     </div>
+    <script type="text/javascript">
+      function generateQuote()
+      {
+        var quotes = new Array(
+        "If you're going through hell, keep going. - Winston Churchill",
+        "Always continue the climb. It is possible for you to do whatever you choose, if you first get to know who you are and are willing to work with a power that is greater than ourselves to do it. - Ella Wheeler Wilcox",
+        "The will to win, the desire to succeed, the urge to reach your full potential... these are the keys that will unlock the door to personal excellence. - Confucius",
+        "Even if you fall on your face, you're still moving forward. - Victor Kiam",
+        "Optimism is the faith that leads to achievement. Nothing can be done without hope and confidence. - Helen Keller",
+        "Learn from the past, set vivid, detailed goals for the future, and live in the only moment of time over which you have any control: now. - Denis Waitley",
+        "If you want to succeed you should strike out on new paths, rather than travel the worn paths of accepted success. - John D. Rockefeller",
+        "Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time. - Thomas A. Edison",
+        "The harder the conflict, the more glorious the triumph. - Thomas Paine",
+        "Setting goals is the first step in turning the invisible into the visible. - Tony Robbins"
+        );
+
+        var index = Math.floor(Math.random() * quotes.length);
+
+        return quotes[index];
+      }
+      $('#quote').text(generateQuote());
+    </script>
   </body>
 </html>
