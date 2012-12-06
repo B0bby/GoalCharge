@@ -13,9 +13,10 @@ def init(app):
     @app.route("/")
     def index():
         from models import User, Goal
-        goals_most_views = Goal.objects.order_by('-views')
-        goals_most_charge = Goal.objects.order_by('-charge')
-        return render_template("index.html", goals_most_views=goals_most_views, goals_most_charge=goals_most_charge)
+        goals_most_views = Goal.objects.order_by("-views")
+        goals_most_charge = Goal.objects.order_by("-charge")
+        goals_newest = Goal.objects.order_by("-created_at")
+        return render_template("index.html", goals_most_views=goals_most_views, goals_most_charge=goals_most_charge, goals_newest=goals_newest)
 
     @app.route("/login", methods=['GET', 'POST'])
     def login():
