@@ -23,25 +23,20 @@ def init(app):
         form = LoginForm(request.form)
         login_status = "form"
         if request.method == "POST":
-            #if form.validate_on_submit():
-                try:
-                    password = EncryptPassword(request.form['password'])
-                    user = User.objects.get(username=request.form['username'],
-                            password=password)
-                    login_user(user)
-                    login_status = "success"
-                    return redirect(url_for("index"))
-                except DoesNotExist:
-                    login_status = "fail"
-            #else:
-                #login_status = "fail"
+            try:
+                password = EncryptPassword(request.form['password'])
+                user = User.objects.get(username=request.form['username'],
+                        password=password)
+                login_user(user)
+                login_status = "success"
+                return redirect(url_for("index"))
+            except DoesNotExist:
+                login_status = "fail"
         return render_template("login.html", login_status=login_status, form=form)
 
     @app.route("/logout")
     @login_required
     def logout():
-        # TODO: Logout logic
-        # Send back to the page the user was at? Just back to index for now
         logout_user()
         return redirect(url_for("index"))
 
@@ -68,7 +63,6 @@ def init(app):
         from models import User, Goal
         user = User.objects.get_or_404(id=user_id)
         goals = Goal.objects(user=user)
-        #goals = Goal.objects.all()
         return render_template("user/profile.html", user=user, goals=goals)
 
     @app.route("/user/<user_id>/edit", methods=['GET', 'POST'])
@@ -111,11 +105,14 @@ def init(app):
         form = NewMilestoneForm(request.form)
         new_status = "form"
         if request.method == "POST":
-            try:
-                new_milestone = Milestone(message=form.message.data, goal=goal)
-                new_milestone.save()
-                new_status = "success"
-            except OperationError:
+            if (current_user.get_id() == goal.user.id):
+                try:
+                    new_milestone = Milestone(message=form.message.data, goal=goal)
+                    new_milestone.save()
+                    new_status = "success"
+                except OperationError:
+                    new_status = "fail"
+            else:
                 new_status = "fail"
         return render_template("milestone/new.html", goal=goal, form=form, new_status=new_status)
 
@@ -137,13 +134,17 @@ def init(app):
     @app.route("/goal/<goal_id>/copy")
     @login_required
     def goal_copy(goal_id):
-        from models import Goal
+        from models import Goal, Milestone
         goal = Goal.objects.get_or_404(id=goal_id)
         if (goal.user.id == current_user.get_id()):
             abort(410)
         else:
             new_goal = Goal(title=goal.title, description=goal.description, user=current_user.self(), original=goal)
             new_goal.save()
+            milestones = Milestone.objects(goal=goal.id)
+            for milestone in milestones:
+                new_milestone = Milestone(goal=new_goal, message=milestone.message)
+                new_milestone.save()
             return redirect("/goal/%s" % new_goal.id)
 
     @app.route("/goal/<goal_id>/change_status")

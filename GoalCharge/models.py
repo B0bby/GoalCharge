@@ -73,8 +73,10 @@ class Milestone(db.Document):
     goal = db.ReferenceField(Goal, required=True)
     message = db.StringField(required=True)
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+    begin_at = db.DateTimeField()
     finished_at = db.DateTimeField()
-    period = db.StringField()
+    status = db.StringField(required=True, default='not_started')
+    period = db.StringField(default="daily")
 
     def __unicode__(self):
         return "%s Milestone: %s" % (goal.title, message)
